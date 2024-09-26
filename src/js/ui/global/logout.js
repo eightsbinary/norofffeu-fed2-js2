@@ -1,3 +1,5 @@
+import { onLogout } from "../auth/logout";
+
 // Function to set up a logout listener for a button
 export function setLogoutListener() {
   const logoutButton = document.getElementById('logout-btn'); // Ensure this ID matches your HTML
