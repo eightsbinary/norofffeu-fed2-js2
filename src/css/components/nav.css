@@ -1,0 +1,33 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 2rem;
+}
+
+.logo {
+  max-height: 3.75rem;
+}
+
+.l-nav,
+.r-nav {
+  display: flex;
+  align-items: center; /* Ensures items are vertically centered */
+}
+
+.r-nav {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.nav-menu {
+  display: inline-block;
+  min-width: 6.25rem;
+  text-align: center;
+}
+
+.search-box {
+  margin-left: 1rem;
+  max-width: 25rem;
+  flex-shrink: 1;
+}

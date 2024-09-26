@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Noroff FED2 JS2 CA</title>
+    <script type="module" src="/src/app.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <a href="/">
+        <img class="logo" src="/images/noroff-logo.png" alt="Noroff Logo" />
+      </a>
+    </nav>
+    <main>
+      <div class="container">
+        <div class="auth-container">
+          <h1 class="form-title pt-9 pb-6">Register</h1>
+          <div class="form-group">
+            <form name="register">
+              <div class="mb-3">
+                <label class="form-label" for="name">Name</label>
+                <input
+                  class="form-control"
+                  id="name"
+                  type="text"
+                  name="name"
+                  required
+                  maxlength="20"
+                  pattern="^[\w]+$"
+                  title="Please enter a username using only letters and numbers"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="email">Email</label>
+                <input
+                  class="form-control"
+                  id="email"
+                  type="email"
+                  name="email"
+                  required
+                  pattern="^[\w\-.]+@(stud\.)?noroff\.no$"
+                  title="Please enter a valid noroff.no or stud.noroff.no address"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="password">Password</label>
+                <input
+                  class="form-control"
+                  type="password"
+                  name="password"
+                  id="password"
+                  required
+                  minlength="8"
+                />
+              </div>
+
+              <button class="btn btn-solid">Register</button>
+            </form>
+          </div>
+          <div class="footer-link pt-6 spacing-01">
+            Already have an account? <a href="/auth/login/">Login</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

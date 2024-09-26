@@ -1,0 +1,17 @@
+body {
+  font-family: 'Inter', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  max-width: 84.25rem;
+  min-height: calc(100vh - 5.75rem);
+  width: 100%;
+}
