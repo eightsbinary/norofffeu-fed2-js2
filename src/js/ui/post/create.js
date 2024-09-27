@@ -1,16 +1,13 @@
 import postService from '../../api/services/postService';
 
+// Main function to handle post creation
 export async function onCreatePost(event) {
   event.preventDefault(); // Prevent default form submission
-
-  const cancelBtn = document.getElementById('cancelCreate')
-  if (cancelBtn) {
-    handleCancelBtn();
-  }
 
   // Collect form data and convert to an object
   const formData = new FormData(event.target);
   const data = Object.fromEntries(formData.entries());
+
   // Convert the tags field from a comma-separated string into an array
   if (data.tags) {
     data.tags = data.tags.split(',').map(tag => tag.trim()); // Ensure tags are split and trimmed
@@ -36,7 +33,7 @@ export async function onCreatePost(event) {
 
     if (result.success) {
       console.log('Post created successfully:', result.data);
-      // Optionally, redirect to the newly created post
+      // Redirect to the newly created post
       window.location.href = `/post/?id=${result.data.data.id}`; // Redirect to the post page
     } else {
       console.error('Failed to create post:', result.message);
@@ -46,6 +43,11 @@ export async function onCreatePost(event) {
   }
 }
 
-function handleCancelBtn() {
-  window.location.href = '/'
+// Handle the cancel button click
+function handleCancelBtn(event) {
+  event.preventDefault(); // Prevent form submission
+  window.location.href = '/'; // Redirect to homepage or desired page
 }
+
+// Add event listener to the cancel button
+document.getElementById('cancelCreate').addEventListener('click', handleCancelBtn);
