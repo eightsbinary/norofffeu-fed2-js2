@@ -42,3 +42,12 @@ document.getElementById('updatePost').addEventListener('click', async (event) =>
   const postId = new URLSearchParams(window.location.search).get('id');
   await onUpdatePost(postId, event); // Handle the update on click
 });
+
+// Handle the cancel button click
+function handleCancelBtn(event) {
+  event.preventDefault(); // Prevent form submission
+  window.location.href = '/'; // Redirect to homepage or desired page
+}
+
+// Add event listener to the cancel button
+document.getElementById('cancelUpdate').addEventListener('click', handleCancelBtn);
