@@ -1,8 +1,10 @@
 import { authGuard } from "../../utilities/authGuard";
 import postService from "../../api/services/postService";
 import { onUpdatePost } from "../../ui/post/update";
+import { updateProfileLink } from "../../utilities/updateProfileLink";
 
 authGuard();
+updateProfileLink();
 
 // Fetch and populate the post data into the form
 async function fetchAndUpdatePost() {

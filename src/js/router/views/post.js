@@ -2,6 +2,9 @@ import postService from '../../api/services/postService';
 import { formatDate } from '../../utilities/dateUtils';
 import { formatTags } from '../../utilities/tagUtils';
 import { onDeletePost } from '../../ui/post/delete';
+import { updateProfileLink } from '../../utilities/updateProfileLink';
+
+updateProfileLink();
 
 // Fetch and render the post
 async function fetchAndRenderPost() {

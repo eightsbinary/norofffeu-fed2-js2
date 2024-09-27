@@ -3,8 +3,10 @@ import { authGuard } from '../../utilities/authGuard';
 import { formatDate } from '../../utilities/dateUtils';
 import { formatTags } from '../../utilities/tagUtils';
 import { loadMoreContent, setupInfiniteScroll } from '../../utilities/scrollUtils';
+import { updateProfileLink } from '../../utilities/updateProfileLink';
 
 authGuard();
+updateProfileLink();
 
 let currentPage = 1;
 let totalPages = 1;
