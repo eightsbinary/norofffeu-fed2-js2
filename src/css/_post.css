@@ -79,6 +79,10 @@ a.post-details-link {
   text-decoration: none;
 }
 
+a.post-details-link:hover {
+  color: rgb(47, 58, 178);
+}
+
 .author-avatar {
   vertical-align: middle;
   width: 2rem;

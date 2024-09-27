@@ -51,17 +51,17 @@ function renderPosts(posts) {
     const formattedTags = formatTags(post.tags);
     
     postElement.innerHTML = `
-      <a class="post-details-link" href="/post/?id=${post.id}">
-        <div class="post-meta">
-          <img class="author-avatar" src="${post.author.avatar.url}" alt="${post.author.avatar.alt}" />
-          <div class="post-info">
-            <span class="mb--1"><small>${post.author.name}</small></span>
-            <span><small>${formattedDate}</small></span>
-          </div>
-        </div>
-        <h2>${post.title}</h2>
-        <p class="tags-container">${formattedTags}</p>
-      </a>
+    <div class="post-meta">
+      <img class="author-avatar" src="${post.author.avatar.url}" alt="${post.author.avatar.alt}" />
+      <div class="post-info">
+        <span class="mb--1"><small>${post.author.name}</small></span>
+        <span><small>${formattedDate}</small></span>
+      </div>
+    </div>
+    <a class="post-details-link" href="/post/?id=${post.id}">
+      <h2>${post.title}</h2>
+    </a>
+    <p class="tags-container">${formattedTags}</p>
     `;
 
     return postElement;
