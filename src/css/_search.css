@@ -1,0 +1,23 @@
+.search-wrapper {
+  display: flex;
+  width: 100%;
+  padding: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 43.75rem;
+}
+
+.search-result-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  width: 100%;
+}
+
+.post-item {
+  background: #fff;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
