@@ -3,13 +3,14 @@ import { formatDate } from '../../utilities/dateUtils';
 import { formatTags } from '../../utilities/tagUtils';
 import { onDeletePost } from '../../ui/post/delete';
 import { updateProfileLink } from '../../utilities/updateProfileLink';
+import { renderCommentBox, renderComments, handleAddComment } from './comment';
+import { getAuthUser } from '../../api/constants';
 
 updateProfileLink();
 
 // Fetch and render the post
 async function fetchAndRenderPost() {
   const postId = getPostIdFromUrl();
-  
   if (!postId) {
     console.error('No post ID provided in the URL');
     return;
@@ -19,8 +20,14 @@ async function fetchAndRenderPost() {
     const result = await postService.post(postId);
     if (result.success) {
       const post = result.data.data;
-      console.log(post)
       renderPost(post);
+      // Render the comment box
+      renderCommentBox(postId);
+      // Render comments for the post
+      await renderComments(postId);
+
+      // Add event listener to the document body
+      document.body.addEventListener('click', handleCommentSubmit);
     } else {
       console.error('Failed to fetch post:', result.message);
     }
@@ -29,22 +36,37 @@ async function fetchAndRenderPost() {
   }
 }
 
+// New function to handle comment submission
+function handleCommentSubmit(event) {
+  if (event.target && event.target.id === 'commentSubmit') {
+    const postId = event.target.getAttribute('data-post-id');
+    const commentInput = document.querySelector('.comment-input');
+    if (postId && commentInput) {
+      handleAddComment(postId, commentInput);
+    } else {
+      console.error('Post ID or comment input not found');
+    }
+  }
+}
+
+// Don't forget to remove the event listener when appropriate
+function cleanupCommentListener() {
+  document.body.removeEventListener('click', handleCommentSubmit);
+}
+
+// Call fetchAndRenderPost when the script loads
+fetchAndRenderPost();
+
 // Extract post ID from the URL
 function getPostIdFromUrl() {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get('id');
 }
 
-// Get current logged-in user from localStorage
-function getCurrentUser() {
-  const storedUser = localStorage.getItem('user');
-  return storedUser ? JSON.parse(storedUser) : null;
-}
-
 // Render the post with conditionally shown buttons
 function renderPost(post) {
   const postContainer = document.querySelector('.post-container');
-  const currentUser = getCurrentUser();
+  const currentUser = getAuthUser();
   const isAuthor = currentUser && currentUser.name === post.author.name;
 
   const formattedDate = formatDate(post.created);
@@ -85,7 +107,7 @@ function renderPost(post) {
 function renderEditDeleteButtons(postId) {
   return `
     <button id="editPost" class="btn btn-solid">Edit</button>
-    <button id="deletePost" class="btn btn-solid btn-danger">-</button>
+    <button id="deletePost" class="btn btn-solid btn-danger">Delete</button>
   `;
 }
 
@@ -109,4 +131,4 @@ function handleUpdatePost(postId) {
 }
 
 // Call the function to fetch and render the post when the script loads
-fetchAndRenderPost();
+// fetchAndRenderPost();

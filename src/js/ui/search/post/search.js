@@ -10,7 +10,6 @@ let isLoading = false;
 
 document.addEventListener('DOMContentLoaded', () => {
   const query = getQueryFromUrl();
-  console.log('Extracted Query on DOMContentLoaded:', query);  // Debugging log
   
   if (query) {
     currentQuery = query;
@@ -22,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function getQueryFromUrl() {
   const urlParams = new URLSearchParams(window.location.search);
   const query = urlParams.get('q');
-  console.log('Extracted Query:', query);  // Add this for debugging
   return query;
 }
 
