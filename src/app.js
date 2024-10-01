@@ -5,6 +5,8 @@ import './js/ui/search/post/search';
 
 import { setLogoutListener } from './js/ui/global/logout';
 import { handleSearchInput } from './js/utilities/searchUtils';
+import { updateProfileLink } from './js/utilities/updateProfileLink';
+
 
 await router(window.location.pathname);
 setLogoutListener();
@@ -12,3 +14,4 @@ const searchInput = document.getElementById('searchInput');
 if (searchInput) {
   searchInput.addEventListener('keypress', handleSearchInput);
 }
+updateProfileLink();
