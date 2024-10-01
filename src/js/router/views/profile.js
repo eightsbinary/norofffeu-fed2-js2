@@ -140,6 +140,9 @@ function renderPosts(posts) {
 
 function attachButtonListeners(username) {
   const updateBtn = document.getElementById('updateProfileBtn');
+  if (!updateBtn) {
+    return;
+  }
 
   updateBtn.addEventListener('click', () => handleUpdateProfile(username));
 }

@@ -2,11 +2,8 @@ import postService from '../../api/services/postService';
 import { formatDate } from '../../utilities/dateUtils';
 import { formatTags } from '../../utilities/tagUtils';
 import { onDeletePost } from '../../ui/post/delete';
-import { updateProfileLink } from '../../utilities/updateProfileLink';
 import { renderCommentBox, renderComments, handleAddComment } from './comment';
 import { getAuthUser } from '../../api/constants';
-
-updateProfileLink();
 
 // Fetch and render the post
 async function fetchAndRenderPost() {
@@ -76,12 +73,17 @@ function renderPost(post) {
   const postHTML = `
     <article class="single-post">
       ${post?.media ? `<img class="post-banner" src="${post?.media?.url}" alt="${post.title}" class="post-image">` : ''}
+      </a>
       <div class="post-content">
         <div class="post-meta">
           <div class="post-meta-inner">
-            <img src="${post.author.avatar.url}" alt="${post.author.name}" class="author-avatar">
+            <a class="profile-link" href="/profile/?username=${post.author.name}">
+              <img src="${post.author.avatar.url}" alt="${post.author.name}" class="author-avatar">
+            </a>
             <div class="post-info">
-              <span class="author-name">${post.author.name}</span>
+              <a class="profile-link" href="/profile/?username=${post.author.name}">
+                <span class="author-name">${post.author.name}</span>
+              </a>
               <span class="post-date"><small>Posted on ${formattedDate}</small></span>
             </div>
           </div>

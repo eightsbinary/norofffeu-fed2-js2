@@ -61,3 +61,7 @@
   width: fit-content;
   max-width: 6rem;
 }
+
+#deletePost {
+  width: 12.5rem;
+}
