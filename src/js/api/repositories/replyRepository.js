@@ -3,7 +3,7 @@ import { headers } from '../headers';
 
 class ReplyRepository {
   // Fetch replies for a comment
-  async replies(postId, commentId) {
+  async replies(postId) {
     const url = `${API_SOCIAL_POSTS}/${postId}/?_comments=true&_author=true`;
 
     try {

@@ -1,11 +1,13 @@
 import replyService from '../../api/services/replyService';
+import { timeUtils } from '../../utilities/timeUtils';
 import { fetchComments } from './comment'; // Import the fetchComments function
+// import { timeUtils } from '../../utils/timeUtils'; // Assuming you have a timeUtils function for relative time formatting
+timeUtils
 
 // Fetch and render replies for a specific comment
-// Function to render replies
 export async function renderReplies(postId, commentId) {
   const repliesContainer = document.querySelector(`.comment-item[data-comment-id="${commentId}"] .replies-list`);
-  
+
   // Check if repliesContainer exists
   if (!repliesContainer) {
     console.error(`Replies container not found for comment ID ${commentId}`);
@@ -14,8 +16,11 @@ export async function renderReplies(postId, commentId) {
 
   try {
     const replies = await replyService.replies(postId, commentId); // Fetch replies for the specific comment
-    if (!replies.success || !replies.data) {
-      console.error('Error fetching replies:', replies.message);
+    console.log(222, replies);
+    
+    // Check if replies is an array
+    if (!Array.isArray(replies)) {
+      console.error('Error fetching replies: expected an array but got:', replies);
       return;
     }
 
@@ -23,7 +28,7 @@ export async function renderReplies(postId, commentId) {
     repliesContainer.innerHTML = '';
 
     // Generate replies HTML
-    const repliesHTML = replies.data.map((reply) => {
+    const repliesHTML = replies.map((reply) => {
       const relativeTime = timeUtils(reply.created);
       return `
         <div class="reply-item" data-reply-id="${reply.id}">

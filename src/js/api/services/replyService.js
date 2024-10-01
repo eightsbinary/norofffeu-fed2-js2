@@ -5,12 +5,25 @@ class ReplyService {
   async replies(postId, commentId) {
     try {
       const repliesData = await replyRepository.replies(postId, commentId);
-      console.log(repliesData);
-      
-      // Check if repliesData has the expected structure
+
+      // Log the full data structure for inspection
+      console.log('Full repliesData:', repliesData);
+
       if (repliesData && repliesData.data && Array.isArray(repliesData.data.comments)) {
-        // Filter out the replies that are actually related to the specific comment
-        return repliesData.data.comments.filter(reply => reply.replyToId === commentId);
+        // Log each comment for further inspection
+        repliesData.data.comments.forEach((comment, index) => {
+          console.log(`Comment ${index}:`, comment);
+        });
+
+        // Convert both replyToId and commentId to the same type (Number) for comparison
+        const filteredReplies = repliesData.data.comments.filter(reply => {
+          return Number(reply.replyToId) === Number(commentId);
+        });
+
+        // Log filtered replies for debugging
+        console.log('Filtered Replies:', filteredReplies);
+
+        return filteredReplies.length > 0 ? filteredReplies : [];
       } else {
         console.error('Unexpected data structure:', repliesData);
         return [];

@@ -46,7 +46,7 @@ export function renderCommentBox(postId) {
   commentContainer.insertAdjacentHTML('afterbegin', commentBoxHTML);
 }
 
-// Function to render comments and attach reply functionality
+// Function to render comments and replies (nested)
 export async function renderComments(postId) {
   const comments = await fetchComments(postId);
   const commentContainer = document.querySelector('.comment-container');
@@ -67,13 +67,14 @@ export async function renderComments(postId) {
   } else {
     const currentUser = getAuthUser();
 
-    // Generate comments HTML
-    const commentHTML = comments.map((comment) => {
+    // Function to render each comment/reply
+    const renderComment = (comment, isReply = false) => {
       const relativeTime = timeUtils(comment.created);
       const isAuthor = currentUser && currentUser.name === comment.author.name;
+      const commentClass = isReply ? 'reply-item' : 'comment-item';
 
       return `
-        <div class="comment-item" data-comment-id="${comment.id}">
+        <div class="${commentClass}" data-comment-id="${comment.id}">
           <div class="comment-meta">
             <img class="author-avatar" src="${comment.author.avatar.url}" alt="${comment.author.avatar.alt}" />
             <div class="comment-content">
@@ -91,9 +92,23 @@ export async function renderComments(postId) {
           </div>
         </div>
       `;
-    }).join('');
+    };
 
-    commentsListContainer.innerHTML = commentHTML;
+    // Render comments and replies
+    const renderNestedComments = (comments, parentId = null) => {
+      comments.forEach(comment => {
+        if (comment.replyToId === parentId) {
+          const commentHTML = renderComment(comment, parentId !== null);
+          commentsListContainer.insertAdjacentHTML('beforeend', commentHTML);
+
+          // Recursively render replies
+          renderNestedComments(comments, comment.id);
+        }
+      });
+    };
+
+    // Call the function to render top-level comments and their replies
+    renderNestedComments(comments);
   }
 
   // Append the new comments list to the comment container
@@ -112,11 +127,6 @@ export async function renderComments(postId) {
   const deleteButtons = commentsListContainer.querySelectorAll('.delete-comment-btn');
   deleteButtons.forEach(button => {
     button.addEventListener('click', handleDeleteComment); // Add event listener for deleting comment
-  });
-
-  // After rendering comments, render replies for each comment
-  comments.forEach(comment => {
-    renderReplies(postId, comment.id); // Use the imported renderReplies function
   });
 }
 
@@ -189,23 +199,3 @@ export async function handleReplySubmit(postId, commentId, replyInput) {
     console.error('Error adding reply:', error);
   }
 }
-
-// Function to handle the reply button click and submission
-export function handleReplyButtonClick(event) {
-  if (event.target && event.target.classList.contains('reply-submit-button')) {
-    const commentId = event.target.getAttribute('data-comment-id');
-    const postId = event.target.getAttribute('data-post-id');
-    const replyInput = document.querySelector(
-      `[data-comment-id="${commentId}"] .reply-input`
-    );
-
-    if (commentId && replyInput) {
-      handleReplySubmit(postId, commentId, replyInput);
-    } else {
-      console.error('Comment ID or reply input not found');
-    }
-  }
-}
-
-// Add event listeners for reply submission
-document.body.addEventListener('click', handleReplyButtonClick);
