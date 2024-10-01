@@ -54,9 +54,11 @@ function renderPosts(posts) {
     
     postElement.innerHTML = `
     <div class="post-meta">
-      <img class="author-avatar" src="${post.author.avatar.url}" alt="${post.author.avatar.alt}" />
+      <a class="profile-link" href="/profile/?username=${post.author.name}">
+        <img class="author-avatar" src="${post.author.avatar.url}" alt="${post.author.avatar.alt}" />
+      </a>
       <div class="post-info">
-        <span class="mb--1"><small>${post.author.name}</small></span>
+        <a class="profile-link" href="/profile/?username=${post.author.name}"><span class="mb--1"><small>${post.author.name}</small></span></a>
         <span><small>${formattedDate}</small></span>
       </div>
     </div>

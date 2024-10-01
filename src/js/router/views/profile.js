@@ -1,20 +1,45 @@
 import { authGuard } from "../../utilities/authGuard";
 import { updateProfileLink } from "../../utilities/updateProfileLink";
 import { getUserFromLocalStorage } from "../../utilities/getUserFromLocalStorage";
-
+import profileService from '../../api/services/profileService';
 
 authGuard();
 updateProfileLink();
 
-const user = getUserFromLocalStorage();
-if (user) {
-  console.log('User data:', user);
-  // You can now use the user object (e.g., user.name, user.email, user.avatar, etc.)
+const localUser = getUserFromLocalStorage();
+
+// Function to extract username from URL
+function getUsernameFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('username');
+}
+
+const urlUsername = getUsernameFromUrl();
+
+async function fetchAndRenderProfile(username) {
+  try {
+    const { success, data } = await profileService.profile(username);
+    if (success) {
+      renderProfile(data.data);
+    } else {
+      console.error('Error fetching profile:', data.message);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+// Compare URL username with localStorage user
+if (urlUsername && urlUsername !== localUser.name) {
+  // Fetch and render profile for the URL username
+  fetchAndRenderProfile(urlUsername);
+} else {
+  // Render the local user profile
+  renderProfile(localUser);
 }
 
 function renderProfile(user) {
   const profileContainer = document.querySelector('.profile-container');
-  
   // Check if profile container exists
   if (!profileContainer) {
     console.error('Profile container not found!');
@@ -54,5 +79,3 @@ function renderProfile(user) {
   // Insert the generated HTML into the profile-container
   profileContainer.innerHTML += profileHTML; // Append after the overlay
 }
-
-renderProfile(user);
