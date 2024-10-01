@@ -1,10 +1,10 @@
-import { authGuard } from "../../utilities/authGuard";
-import { updateProfileLink } from "../../utilities/updateProfileLink";
-import { getUserFromLocalStorage } from "../../utilities/getUserFromLocalStorage";
+import { authGuard } from '../../utilities/authGuard';
+import { getUserFromLocalStorage } from '../../utilities/getUserFromLocalStorage';
 import profileService from '../../api/services/profileService';
+import { formatDate } from '../../utilities/dateUtils';
+import { formatTags } from '../../utilities/tagUtils';
 
 authGuard();
-updateProfileLink();
 
 const localUser = getUserFromLocalStorage();
 
@@ -21,6 +21,7 @@ async function fetchAndRenderProfile(username) {
     const { success, data } = await profileService.profile(username);
     if (success) {
       renderProfile(data.data);
+      await fetchAndRenderPosts(username); // Fetch and render posts after profile is loaded
     } else {
       console.error('Error fetching profile:', data.message);
     }
@@ -36,6 +37,7 @@ if (urlUsername && urlUsername !== localUser.name) {
 } else {
   // Render the local user profile
   renderProfile(localUser);
+  fetchAndRenderPosts(localUser.name); // Fetch and render posts for local user
 }
 
 function renderProfile(user) {
@@ -59,7 +61,9 @@ function renderProfile(user) {
     <header class="profile-header">
       <div class="profile-header__top">
         <span class="avatar-3xl">
-          <img class="profile-avatar" src="${user.avatar.url}" alt="${user.avatar.alt || `${user.name}'s avatar`}">
+          <img class="profile-avatar" src="${user.avatar.url}" alt="${
+    user.avatar.alt || `${user.name}'s avatar`
+  }">
         </span>
       </div>
       <div class="profile-header__details">
@@ -71,11 +75,76 @@ function renderProfile(user) {
         </div>
       </div>
     </header>
-    <form name="updateProfile">
+    ${user.name === localUser.name ? `
       <button class="btn btn-solid" id="updateProfileBtn">Edit Profile</button>
-    </form>
+    ` : ''}
   `;
 
   // Insert the generated HTML into the profile-container
   profileContainer.innerHTML += profileHTML; // Append after the overlay
+}
+
+// Function to fetch and render posts by the profile
+async function fetchAndRenderPosts(username) {
+  try {
+    const { success, data } = await profileService.getPostsByProfile(username);
+    if (success) {
+      renderPosts(data.data);
+    } else {
+      console.error('Error fetching posts:', data.message);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+function renderPosts(posts) {
+  const postListContainer = document.querySelector('.post-list');
+  // Check if post-list container exists
+  if (!postListContainer) {
+    console.error('Post list container not found!');
+    return;
+  }
+  
+  // Generate HTML for each post
+  const postElements = posts.map((post) => {
+    const postElement = document.createElement('div');
+    postElement.classList.add('post');
+    
+    const formattedDate = formatDate(post.created);
+    const formattedTags = formatTags(post.tags);
+    
+    postElement.innerHTML = `
+    <div class="post-meta">
+      <a class="profile-link" href="/profile/?username=${post.author.name}">
+        <img class="author-avatar" src="${post.author.avatar.url}" alt="${post.author.avatar.alt}" />
+      </a>
+      <div class="post-info">
+        <a class="profile-link" href="/profile/?username=${post.author.name}"><span class="mb--1"><small>${post.author.name}</small></span></a>
+        <span><small>${formattedDate}</small></span>
+      </div>
+    </div>
+    <a class="post-details-link" href="/post/?id=${post.id}">
+      <h2>${post.title}</h2>
+    </a>
+    <p class="tags-container">${formattedTags}</p>
+    `;
+
+    return postElement;
+  });
+
+  postListContainer.append(...postElements);
+
+  attachButtonListeners(localUser.name)
+}
+
+function attachButtonListeners(username) {
+  const updateBtn = document.getElementById('updateProfileBtn');
+
+  updateBtn.addEventListener('click', () => handleUpdateProfile(username));
+}
+
+// Redirect to the update post page
+function handleUpdateProfile(username) {
+  window.location.href = `/profile/edit/?username=${username}`;
 }

@@ -36,6 +36,17 @@ class ProfileService {
       return { success: false, message: error.message };
     }
   }
+
+  // Get posts by a specific profile (username)
+  async getPostsByProfile(username) {
+    try {
+      const response = await profileRepository.getPostsByProfile(username);
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('ProfileService (getPostsByProfile) error:', error);
+      return { success: false, message: error.message };
+    }
+  }
 }
 
 export default new ProfileService();

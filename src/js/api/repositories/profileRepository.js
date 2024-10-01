@@ -51,6 +51,20 @@ class ProfileRepository {
       throw error;
     }
   }
+
+  async getPostsByProfile(username) {
+    try {
+      const response = await fetch(`${API_SOCIAL_PROFILES}/${username}/posts?_author=true`, {
+        method: 'GET',
+        headers: headers(),
+      });
+      if (!response.ok) throw new Error(`Error: ${response.statusText}`);
+      return await response.json();
+    } catch (error) {
+      console.error('ProfileRepository (profile) error:', error);
+      throw error;
+    }
+  }
 }
 
 export default new ProfileRepository();
