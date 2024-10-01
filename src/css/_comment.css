@@ -24,7 +24,6 @@
 
 .comment-meta {
   display: flex;
-  align-items: center;
   width: 100%;
   margin: 1rem 0;
 }
@@ -69,12 +68,13 @@
 
 #commentSubmit {
   align-self: flex-end;
-  padding: 5px 10px;
+  padding: 0.5rem 1rem;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  width: fit-content;
 }
 
 #commentSubmit:hover {
@@ -85,39 +85,14 @@
   color: #000;
 }
 
-/* Reply box */
-.reply-box {
-  width: 100%; /* Ensure the reply box takes the full width */
-  margin-top: 10px;
-}
-
-/* Reply input (textarea) */
-.reply-input {
-  width: 100%; /* Make the textarea fill the container width */
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  resize: none; /* Disable resizing */
-  height: 30px; /* Set a smaller height for the textarea */
-  font-size: 14px;
-  box-sizing: border-box; /* Ensures padding is included in width */
-}
-
 textarea:not([rows]) {
   min-height: 5em;
 }
 
-.reply-submit-button {
-  align-self: flex-end;
-  padding: 5px 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.reply-submit-button:hover {
-  background-color: #0056b3;
+.comment-btn-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  gap: 0.5rem;
+  justify-content: flex-start; /* Align buttons to the left */
 }

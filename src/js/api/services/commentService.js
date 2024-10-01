@@ -30,26 +30,6 @@ class CommentService {
       return { success: false, error: error.message };
     }
   }
-
-  async reply(postId, commentId, body) {
-    try {
-      const response = await commentRepository.reply(postId, commentId, body);
-      return { success: true, data: response };
-    } catch (error) {
-      console.error('Error in CommentService (reply):', error);
-      return { success: false, error: error.message };
-    }
-  }
-
-  async fetchReplies(postId, commentId) {
-    try {
-      const response = await commentRepository.fetchReplies(postId, commentId);
-      return { success: true, data: response || [] };
-    } catch (error) {
-      console.error('Error in CommentService (fetchReplies):', error);
-      return { success: false, error: error.message };
-    }
-  }
 }
 
 export default new CommentService();

@@ -129,6 +129,3 @@ async function handleDeletePost(postId) {
 function handleUpdatePost(postId) {
   window.location.href = `/post/edit/?id=${postId}`;
 }
-
-// Call the function to fetch and render the post when the script loads
-// fetchAndRenderPost();

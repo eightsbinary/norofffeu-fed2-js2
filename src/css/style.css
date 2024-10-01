@@ -5,6 +5,7 @@
 @import url('./components/nav.css');
 @import url('./components/button.css');
 @import url('./components/form.css');
+@import url('./components/reply.css');
 @import url(_auth.css);
 @import url(_home.css);
 @import url(_post.css);

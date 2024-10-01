@@ -1,0 +1,23 @@
+.reply-meta {
+  display: flex;
+  margin: 1rem 0;
+}
+
+/* Reply box */
+.reply-box {
+  width: 100%; /* Ensure the reply box takes the full width */
+  margin-top: 10px;
+}
+
+/* Reply input (textarea) */
+.reply-input {
+  width: 100%; /* Make the textarea fill the container width */
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none; /* Disable resizing */
+  height: 30px; /* Set a smaller height for the textarea */
+  font-size: 14px;
+  box-sizing: border-box; /* Ensures padding is included in width */
+}
