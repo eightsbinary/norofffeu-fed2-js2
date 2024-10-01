@@ -35,16 +35,24 @@ class ProfileRepository {
     }
   }
 
-  // Update a profile by username (with avatar and banner)
-  async update(username, { avatar, banner }) {
+  async update(username, { bio, avatar, banner }) {
     try {
-      const body = JSON.stringify({ avatar, banner });
+      const body = JSON.stringify({ bio, avatar, banner });
       const response = await fetch(`${API_SOCIAL_PROFILES}/${username}`, {
         method: 'PUT',
         headers: headers(),
         body,
       });
-      if (!response.ok) throw new Error(`Error: ${response.statusText}`);
+
+      // Check if the response is okay
+      if (!response.ok) {
+        const errorResponse = await response.json(); // Attempt to read the error message
+        console.error('Update error response:', errorResponse);
+        throw new Error(
+          `Error: ${errorResponse.message || response.statusText}`
+        );
+      }
+
       return await response.json();
     } catch (error) {
       console.error('ProfileRepository (update) error:', error);
@@ -54,10 +62,13 @@ class ProfileRepository {
 
   async getPostsByProfile(username) {
     try {
-      const response = await fetch(`${API_SOCIAL_PROFILES}/${username}/posts?_author=true`, {
-        method: 'GET',
-        headers: headers(),
-      });
+      const response = await fetch(
+        `${API_SOCIAL_PROFILES}/${username}/posts?_author=true`,
+        {
+          method: 'GET',
+          headers: headers(),
+        }
+      );
       if (!response.ok) throw new Error(`Error: ${response.statusText}`);
       return await response.json();
     } catch (error) {

@@ -28,6 +28,7 @@ async function fetchAndUpdateProfile() {
 // Populate form fields with the fetched profile data
 function populateForm(profile) {
   const form = document.forms['updateProfile'];
+  form.bio.value = profile?.bio || ''; // Handle bio value
   form.avatarUrl.value = profile.avatar?.url || ''; // Handle avatar URL
   form.avatarAlt.value = profile.avatar?.alt || ''; // Handle avatar alt text
   form.bannerUrl.value = profile.banner?.url || ''; // Handle banner URL

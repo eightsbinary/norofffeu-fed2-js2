@@ -37,6 +37,7 @@ export async function onUpdateProfile(username, event) {
 
   // Prepare the payload for the API (avatar and banner)
   const payload = {
+    bio: data.bio,
     avatar: {
       url: data.avatarUrl, // Ensure these names match your input names
       alt: data.avatarAlt || '', // Optional alt text for avatar
@@ -68,3 +69,14 @@ export async function onUpdateProfile(username, event) {
     alert('An error occurred while updating the profile.');
   }
 }
+
+// Function to update the character counter for the bio input
+function updateCounter() {
+  const bioInput = document.getElementById('bio');
+  const counter = document.getElementById('bioCharCounter');
+  const remaining = 160 - bioInput.value.length;
+  counter.textContent = `${remaining} characters remaining`;
+}
+
+// Attach event listener for the bio input field
+document.getElementById('bio').addEventListener('input', updateCounter);

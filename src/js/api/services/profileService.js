@@ -24,9 +24,10 @@ class ProfileService {
   }
 
   // Update a profile by username (with avatar and banner)
-  async update(username, { avatar, banner }) {
+  async update(username, { bio, avatar, banner }) {
     try {
       const response = await profileRepository.update(username, {
+        bio,
         avatar,
         banner,
       });
