@@ -1,26 +1,40 @@
 // Repositories
 import authRepository from './repositories/auth';
-import postRepository from './repositories/post';
-import profileRepository from './repositories/profile';
+import commentRepository from './repositories/commentRepository';
+import postRepository from './repositories/postRepository';
+import profileRepository from './repositories/profileRepository';
+import replyRepository from './repositories/replyRepository';
 import searchRepository from './repositories/searchRepository';
+import tagRepository from './repositories/tagRepository';
 
 // Services
 import authService from './services/auth';
-import postService from './services/post';
-import profileService from './services/profile';
+import commentService from './services/commentService';
+import logoutService from './services/logoutService'
+import postService from './services/postService';
+import profileService from './services/profileService';
+import replyService from './services/replyService'
 import searchService from './services/searchService';
+import tagService from './services/tagService';
 
 // Export all repositories and services
 export {
   // Repositories
   authRepository,
+  commentRepository,
   postRepository,
   profileRepository,
+  replyRepository,
   searchRepository,
+  tagRepository,
 
   // Services
   authService,
+  commentService,
   postService,
+  logoutService,
   profileService,
-  searchService
+  replyService,
+  searchService,
+  tagService,
 };

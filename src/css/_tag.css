@@ -1,0 +1,37 @@
+.tag-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background-color: #f0f0f0;
+  border-radius: 1rem;
+  color: unset;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.tag-header {
+  margin-bottom: 2rem;
+}
+
+.tag:hover {
+  color: #0000ee;
+  background-color: #e0e0e0; /* Change background on hover */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure there's space between each tag */
+.tags-container .tag {
+  margin-right: 0.25rem;
+}
