@@ -42,38 +42,10 @@ const data = await response.json();
  * #####
  * remaining feature
  * #####
- * - follow/unfollow user
- * 
- * #####
- * get post of a user 
- * #####
- * - click on user avatar and display user profile
- * - has a follow button for author 
- * - list all the post that user has post
- * 
- * #####
- * same with the get post of a user 
- * #####
- * - get post from followed user
- * 
- * //#####
- * //search post
- * //#####
- * //- list all the post that related to search terms
- * 
- * #####
- * additional post function
- * #####
- * - react to a post
- * //- comment on a post
- * // -delete comment on a post
  * - reply to a comment
- * 
- * #####
- * other feature
- * #####
- * - tags link
- * - list all post with tags related witht
+ * - interact with emoji to post
+ * - create reaction menu for emoji
+ * - api in repository and service for reaction
  * 
  * / 
 

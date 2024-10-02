@@ -29,7 +29,7 @@ class PostRepository {
       if (!response.ok) throw new Error(`Error: ${response.statusText}`);
       return await response.json();
     } catch (error) {
-      console.log(`${API_SOCIAL_POSTS}/${id}`)
+      console.log(`${API_SOCIAL_POSTS}/${id}`);
       console.error('Get Post Error:', error);
       throw error;
     }
@@ -75,10 +75,13 @@ class PostRepository {
   // Get all posts
   async getAll(page = 1) {
     try {
-      const response = await fetch(`${API_SOCIAL_POSTS}?limit=12&_author=true&page=${page}`, {
-        method: 'GET',
-        headers: headers(),
-      });
+      const response = await fetch(
+        `${API_SOCIAL_POSTS}?limit=12&_author=true&page=${page}`,
+        {
+          method: 'GET',
+          headers: headers(),
+        }
+      );
       if (!response.ok) throw new Error(`Error: ${response.statusText}`);
       return await response.json();
     } catch (error) {
@@ -87,7 +90,5 @@ class PostRepository {
     }
   }
 }
-
-
 
 export default new PostRepository();

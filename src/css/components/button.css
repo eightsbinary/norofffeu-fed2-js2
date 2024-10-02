@@ -65,3 +65,17 @@
 #deletePost {
   width: 12.5rem;
 }
+
+#followBtn {
+  margin: 1rem;
+  cursor: pointer;
+  width: 10rem;
+  max-height: 3rem;
+  background-color: #007bff;
+  color: #fff;
+  z-index: 100;
+}
+
+#followBtn:hover {
+  background-color: #005abb;
+}

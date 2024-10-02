@@ -1,0 +1,42 @@
+.page-header {
+  margin: 2rem 0;
+}
+
+.author-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px; /* Adjust the gap between items */
+}
+
+.author-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.avatar-following-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.author-avatar-following {
+  width: 4rem; /* Adjust size as needed */
+  height: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1.5rem;
+}
+
+.avatar-following-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile-grid-link {
+  text-decoration: none;
+}

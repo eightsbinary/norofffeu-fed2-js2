@@ -1,8 +1,10 @@
 import { authGuard } from '../../utilities/authGuard';
+import followService from '../../api/services/followService';
 import { getUserFromLocalStorage } from '../../utilities/getUserFromLocalStorage';
 import profileService from '../../api/services/profileService';
 import { formatDate } from '../../utilities/dateUtils';
 import { formatTags } from '../../utilities/tagUtils';
+import { checkFollowingAndInitialize } from '../views/follow'
 
 authGuard();
 
@@ -18,12 +20,20 @@ const urlUsername = getUsernameFromUrl();
 
 async function fetchAndRenderProfile(username) {
   try {
-    const { success, data } = await profileService.profile(username);
-    if (success) {
-      renderProfile(data.data);
+    const response = await followService.checkFollowing(username);
+    const data = response.data;
+
+    if (data.data) {
+      const profileData = data.data;
+      renderProfile(profileData);
       await fetchAndRenderPosts(username); // Fetch and render posts after profile is loaded
+
+      // Initialize the follow button logic
+      if (profileData.name !== localUser.name) {
+        checkFollowingAndInitialize(profileData.name); // Initialize the follow button with correct status
+      }
     } else {
-      console.error('Error fetching profile:', data.message);
+      console.error('Error fetching profile:', data.meta.message);
     }
   } catch (error) {
     console.error('Error:', error);
@@ -42,7 +52,6 @@ if (urlUsername && urlUsername !== localUser.name) {
 
 function renderProfile(user) {
   const profileContainer = document.querySelector('.profile-container');
-  // Check if profile container exists
   if (!profileContainer) {
     console.error('Profile container not found!');
     return;
@@ -61,9 +70,7 @@ function renderProfile(user) {
     <header class="profile-header">
       <div class="profile-header__top">
         <span class="avatar-3xl">
-          <img class="profile-avatar" src="${user.avatar.url}" alt="${
-    user.avatar.alt || `${user.name}'s avatar`
-  }">
+          <img class="profile-avatar" src="${user.avatar.url}" alt="${user.avatar.alt || `${user.name}'s avatar`}">
         </span>
       </div>
       <div class="profile-header__details">
@@ -75,13 +82,22 @@ function renderProfile(user) {
         </div>
       </div>
     </header>
-    ${user.name === localUser.name ? `
-      <button class="btn btn-solid" id="updateProfileBtn">Edit Profile</button>
-    ` : ''}
+    ${
+      user.name !== localUser.name
+        ? `<button id="followBtn" class="btn btn-outline">Loading...</button>`
+        : `<button class="btn btn-solid" id="updateProfileBtn">Edit Profile</button>`
+    }
   `;
 
   // Insert the generated HTML into the profile-container
   profileContainer.innerHTML += profileHTML; // Append after the overlay
+
+  // Only initialize the follow button logic if viewing another user's profile
+  if (user.name !== localUser.name) {
+    checkFollowingAndInitialize(user.name); // Initialize correctly
+  }
+
+  attachButtonListeners(user.name);
 }
 
 // Function to fetch and render posts by the profile
@@ -105,22 +121,22 @@ function renderPosts(posts) {
     console.error('Post list container not found!');
     return;
   }
-  
+
   // Generate HTML for each post
   const postElements = posts.map((post) => {
     const postElement = document.createElement('div');
     postElement.classList.add('post');
-    
+
     const formattedDate = formatDate(post.created);
     const formattedTags = formatTags(post.tags);
-    
+
     postElement.innerHTML = `
     <div class="post-meta">
-      <a class="profile-link" href="/profile/?username=${post.author.name}">
+      <a class="profile-link" href="/profile/?username=${post.owner}">
         <img class="author-avatar" src="${post.author.avatar.url}" alt="${post.author.avatar.alt}" />
       </a>
       <div class="post-info">
-        <a class="profile-link" href="/profile/?username=${post.author.name}"><span class="mb--1"><small>${post.author.name}</small></span></a>
+        <a class="profile-link" href="/profile/?username=${post.owner}"><span class="mb--1"><small>${post.owner}</small></span></a>
         <span><small>${formattedDate}</small></span>
       </div>
     </div>
@@ -135,7 +151,7 @@ function renderPosts(posts) {
 
   postListContainer.append(...postElements);
 
-  attachButtonListeners(localUser.name)
+  attachButtonListeners(localUser.name);
 }
 
 function attachButtonListeners(username) {
