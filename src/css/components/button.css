@@ -67,6 +67,8 @@
 }
 
 #followBtn {
+  position: absolute;
+  right: 0;
   margin: 1rem;
   cursor: pointer;
   width: 10rem;
@@ -78,4 +80,18 @@
 
 #followBtn:hover {
   background-color: #005abb;
+}
+
+#updateProfileBtn {
+  position: absolute;
+  right: 0;
+  margin: 1rem;
+  cursor: pointer;
+  width: 10rem;
+  max-height: 3rem;
+  z-index: 100;
+}
+
+#updateProfileBtn:hover {
+  background-color: rgb(48, 58, 178);
 }

@@ -68,19 +68,6 @@ span.avatar-3xl {
   color: #fff; /* Ensures bio text stands out */
 }
 
-#updateProfileBtn {
-  position: relative;
-  margin: 1rem;
-  cursor: pointer;
-  width: 10rem;
-  max-height: 3rem;
-  z-index: 100;
-}
-
-#updateProfileBtn:hover {
-  background-color: rgb(48, 58, 178);
-}
-
 .post-wrapper {
   display: flex;
   justify-content: center;
