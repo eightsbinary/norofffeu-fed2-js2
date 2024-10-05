@@ -72,16 +72,26 @@ function renderPost(post) {
   // Build the post HTML
   const postHTML = `
     <article class="single-post">
-      ${post?.media ? `<img class="post-banner" src="${post?.media?.url}" alt="${post.title}" class="post-image">` : ''}
+      ${
+        post?.media
+          ? `<img class="post-banner" src="${post?.media?.url}" alt="${post.title}" class="post-image">`
+          : ''
+      }
       </a>
       <div class="post-content">
         <div class="post-meta">
           <div class="post-meta-inner">
-            <a class="profile-link" href="/profile/?username=${post.author.name}">
-              <img src="${post.author.avatar.url}" alt="${post.author.name}" class="author-avatar">
+            <a class="profile-link" href="/profile/?username=${
+              post.author.name
+            }">
+              <img src="${post.author.avatar.url}" alt="${
+    post.author.name
+  }" class="author-avatar">
             </a>
             <div class="post-info">
-              <a class="profile-link" href="/profile/?username=${post.author.name}">
+              <a class="profile-link" href="/profile/?username=${
+                post.author.name
+              }">
                 <span class="author-name">${post.author.name}</span>
               </a>
               <span class="post-date"><small>Posted on ${formattedDate}</small></span>
